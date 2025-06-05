@@ -1,0 +1,21 @@
+{
+    "login": "Connexion",
+    "french":"Français",
+    "dashboard" : "Tableau de bord",
+    "course": "Cours",
+    "students": "Étudiants",
+    "instructors": "Instructeurs",
+    "earnings": "Gains",
+    "reviews": "Avis",
+    "affiliations": "Affiliations",
+    "users": "Utilisateurs",
+    "roles": "Rôles",
+    "layoutView": "Vue de mise en page",
+    "setting": "Paramètres",
+    "datas" : "Datas",
+    "item" : "Item",
+    "search..." : "Search ...",
+    "noData" : "No data available",
+    "try..." : "Try changing your search",
+    "thedata" : "The data will appear here"
+}
