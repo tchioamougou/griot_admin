@@ -255,7 +255,7 @@ const menuGroups = computed(() => [
       {
         icon: GridIcon,
         name: t('dashboard'),
-        path: "/",
+        path: "/dashboard",
       },
       {
         icon: TaskIcon,
@@ -282,11 +282,6 @@ const menuGroups = computed(() => [
         name: t('reviews'),
         path: "/review",
       },
-      {
-        icon: MailIcon,
-        name: t('affiliations'),
-        path: "/affiliation",
-      },
 
       {
         icon: UserPlusIIcon,
@@ -298,11 +293,6 @@ const menuGroups = computed(() => [
         icon: RoleIcon,
         name: t('roles'),
         path: "/role",
-      },
-      {
-        icon: LayoutDashboardIcon,
-        name: t('layoutView'),
-        path: "/layout",
       },
       {
         icon: SettingsIcon,

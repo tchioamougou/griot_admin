@@ -26,7 +26,7 @@
           <div class="flex justify-between text-sm">
             <div class="flex items-center space-x-2">
               <i class="bi bi-people-fill text-green-600"></i>
-              <span>Total Students</span>
+              <span>{{ $t('total_students') }}</span>
             </div>
             <span>{{ re.totalStudents }}</span>
           </div>
@@ -34,7 +34,7 @@
           <div class="flex justify-between text-sm">
             <div class="flex items-center space-x-2">
               <i class="bi bi-camera-fill text-green-600"></i>
-              <span>Total Courses</span>
+              <span>{{ $t('total_course') }}</span>
             </div>
             <span>{{ re.totalCourses ?? 0 }}</span>
           </div>
@@ -50,7 +50,7 @@
           class="px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex justify-between text-sm text-gray-500 dark:text-gray-400 space-x-6"
         >
           <span
-            >Joined:
+            >{{ $t('joined') }}:
             <strong class="text-indigo-600 dark:text-indigo-400">{{
               formatDate(re.createdDate)
             }}</strong></span

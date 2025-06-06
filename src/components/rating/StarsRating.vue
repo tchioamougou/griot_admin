@@ -30,9 +30,10 @@
 
 <script lang="ts" setup>
 import { defineProps } from 'vue'
+import type { StyleValue } from 'vue'
 
 const props = defineProps<{
   rating: number
-  starStyle?: object
+  starStyle?: StyleValue
 }>()
 </script>

@@ -4,11 +4,20 @@
       class="flex items-center text-gray-700 dark:text-gray-400"
       @click.prevent="toggleDropdown"
     >
-      <span class="mr-3 overflow-hidden rounded-full h-11 w-11">
-        <img src="" alt="User" />
+      <!-- <span class="mr-3 overflow-hidden rounded-full h-11 w-11">
+        <img :src="Picture" alt="User" />
+      </span> -->
+      <span class="mr-3 overflow-hidden rounded-full h-11 w-11 bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-700">
+        <template v-if="Picture.startsWith('http')">
+          <img :src="Picture" alt="User" class="w-full h-full object-cover" />
+        </template>
+        <template v-else>
+          {{ Picture }}
+        </template>
       </span>
 
-      <span class="block mr-1 font-medium text-theme-sm">User Name </span>
+
+      <span class="block mr-1 font-medium text-theme-sm">{{ fullName }} </span>
 
       <ChevronDownIcon :class="{ 'rotate-180': dropdownOpen }" />
     </button>
@@ -20,10 +29,10 @@
     >
       <div>
         <span class="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-          User Name
+          {{ fullName }}
         </span>
         <span class="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-          user@gmail.com
+         {{ Email }}
         </span>
       </div>
 
@@ -43,14 +52,14 @@
         </li>
       </ul>
       <router-link
-        to="/signin"
+        to="/"
         @click="signOut"
         class="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-full group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
       >
         <LogoutIcon
           class="text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300"
         />
-        Sign out
+        {{ $t('sign_out') }}
       </router-link>
     </div>
     <!-- Dropdown End -->
@@ -60,16 +69,56 @@
 <script setup lang="ts">
 import { UserCircleIcon, ChevronDownIcon, LogoutIcon, SettingsIcon, InfoCircleIcon } from '@/icons'
 import { RouterLink } from 'vue-router'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '@/composables/user'
+import { useRouter } from 'vue-router'
 
+const { t } = useI18n()
+const authStore = useAuthStore()
 const dropdownOpen = ref(false)
 const dropdownRef = ref<HTMLElement | null>(null)
+  const router = useRouter()
+const menuItems = computed(() => [
+  { href: '/profile', icon: UserCircleIcon, text: t('edit_profile') },
+  { href: '/setting', icon: SettingsIcon, text: t('account_settings') },
+  // { href: '/profile', icon: InfoCircleIcon, text: 'Support' },
+])
 
-const menuItems = [
-  { href: '/profile', icon: UserCircleIcon, text: 'Edit profile' },
-  { href: '/chat', icon: SettingsIcon, text: 'Account settings' },
-  { href: '/profile', icon: InfoCircleIcon, text: 'Support' },
-]
+const fullName = computed(() => {
+  const userData = authStore.user
+  const user = JSON.parse(userData);
+  return `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim()
+})
+const Email = computed(() => {
+  const userData = authStore.user
+  const user = JSON.parse(userData);
+  return `${user?.email ?? ''}`
+})
+
+function getInitials(name: string = ''): string {
+  return name
+    .trim()
+    .split(' ')
+    .map(n => n[0] ?? '')
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
+
+
+const Picture = computed(() => {
+  try {
+    const rawUser = authStore.user
+    const user = typeof rawUser === 'string' ? JSON.parse(rawUser) : rawUser
+    console.log("user", user.picture)
+    return user?.picture?.startsWith('http') ? user.picture : getInitials(user.name)
+
+  } catch (err) {
+    console.error("Erreur de parsing utilisateur:", err)
+    return ''
+  }
+})
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value
@@ -80,9 +129,9 @@ const closeDropdown = () => {
 }
 
 const signOut = () => {
-  // Implement sign out logic here
-  console.log('Signing out...')
+  authStore.logout()
   closeDropdown()
+  router.push('/')
 }
 
 const handleClickOutside = (event: MouseEvent) => {
@@ -90,7 +139,6 @@ const handleClickOutside = (event: MouseEvent) => {
     closeDropdown()
   }
 }
-
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)

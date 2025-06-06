@@ -35,7 +35,10 @@
 </template>
 
 <script setup lang="ts">
-import { useTheme } from '../layout/ThemeProvider.vue'
+// import { useTheme } from '../layout/ThemeProvider.vue'
 
-const { toggleTheme } = useTheme()
+// const { toggleTheme } = useTheme()
+import { useTheme } from '@/composables/useTheme'
+
+const { toggleTheme, isDarkMode } = useTheme()
 </script>

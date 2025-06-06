@@ -1,9 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:bg-gray-900">
     <admin-layout>
-      <!-- <PageBreadcrumb :pageTitle="'Course List'" /> -->
       <div
-        class="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 rounded-2xl mb-20 shadow-2xl"
+        class="relative overflow-hidden bg-gradient-to-r  from-indigo-600 via-purple-600 to-blue-600 rounded-2xl mb-20 shadow-2xl"
       >
         <div class="absolute inset-0 bg-black/20"></div>
         <div
@@ -28,55 +27,21 @@
                     ></path>
                   </svg>
                 </div>
-                <h1 class="text-4xl font-bold text-white">Gestion des Cours</h1>
+                <h1 class="text-4xl font-bold text-white">{{ $t('course_management') }}</h1>
               </div>
               <p class="text-blue-100 text-lg">
-                Gérez et supervisez tous vos cours en un seul endroit
+                {{ $t('manage_course') }}
               </p>
             </div>
             <div class="hidden md:flex items-center space-x-4">
               <div class="glass-card px-6 py-4 text-center">
                 <div class="text-2xl font-bold text-white">{{ totalCourses }}</div>
-                <div class="text-blue-100 text-sm">Total Cours</div>
+                <div class="text-blue-100 text-sm">{{ $t('total_course') }}</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- <div class="flex justify-end">
-      <div class="mb-8 space-y-6">
-        <div class="flex flex-col lg:flex-row gap-6 items-start lg:items-center">
-          <div class="flex-1 max-w-2xl">
-            <div class="relative group">
-              <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
-              <div class="relative bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-                <div class="flex items-center p-4">
-                  <div class="flex-shrink-0 p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl mr-4">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"></path>
-                    </svg>
-                  </div>
-                  <input
-                    v-model="searchQuery"
-                    type="text"
-                    placeholder="Rechercher ..."
-                    class="flex-1 border-0 bg-transparent text-gray-800 placeholder-gray-400 focus:outline-none text-lg"
-                  />
-                  <button
-                    @click="performSearch"
-                    class="ml-4 px-6 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-                  >
-                    Rechercher
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-      <!-- Onglets modernisés -->
       <div class="mb-8">
         <div class="flex items-center justify-between mb-6">
           <div class="flex space-x-1 bg-gray-100 p-1 rounded-2xl">
@@ -125,10 +90,10 @@
         </div>
       </div>
       <div v-if=" activeTab =='all'" class="my-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <SimpleCard name="Total Courses" :count="totalCourses" />
-        <SimpleCard name="Activated Courses" :count="activatedCoureses" />
-        <SimpleCard name="Pending Courses" :count="pendingCoureses" />
-        <SimpleCard name="Building Courses" :count="buildingCoureses" />
+        <SimpleCard :name="$t('total_course')" :count="totalCourses" />
+        <SimpleCard :name="$t('activated_courses')" :count="activatedCoureses" />
+        <SimpleCard :name="$t('pending_courses')" :count="pendingCoureses" />
+        <SimpleCard :name="$t('building_courses')" :count="buildingCoureses" />
       </div>
 
       <!-- Vue Cartes (moderne) -->
@@ -239,14 +204,14 @@
       </div> -->
 
       <!-- Vue Tableau (modernisée) -->
-      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden dark:bg-gray-900">
         <div class="overflow-x-auto">
-          <div class="bg-white shadow-md rounded-xl p-6 mt-6">
+          <div class="bg-white shadow-md rounded-xl p-6 mt-6 dark:bg-gray-900">
             <TableComponent
               :items="columns"
               :datas="filteredCourses"
               :showHeader="true"
-              title="Gestion de cours"
+              :title="$t('course_management')"
               :pageSize="10"
               :pagination="true"
               @pageChange="handlePageChange"
@@ -274,6 +239,8 @@ import type { TableColumn } from '@/types/table'
 import { formatDateT } from '@/components/utilities/UtilityFunction'
 import SimpleCard from '@/components/cards/SimpleCard.vue'
 import { useRouter } from 'vue-router'
+import type { ComputedRef } from 'vue'
+import { useI18n } from "vue-i18n";
 
 // État réactif
 const searchQuery = ref('')
@@ -288,18 +255,18 @@ const totalCourses = ref<number | null>(null)
 const activatedCoureses = ref<number | null>(null)
 const pendingCoureses = ref<number | null>(null)
 const buildingCoureses = ref<number | null>(null)
-
+const { t } = useI18n();
 const router = useRouter()
 
-const columns: TableColumn[] = [
-  { name: 'title', label: 'Course Name', sortable: true, type: 'imageText' },
-  { name: 'InstructorName', label: 'Instructor', type: 'imageText', sortable: true },
-  { name: 'priceFormatted', label: 'amount', type: 'text', sortable: true },
-  { name: 'date', label: 'Added Date', type: 'text', sortable: true },
-  { name: 'statusColor', label: 'Status', type: 'badge', sortable: true },
+const columns:  ComputedRef<TableColumn[]>  = computed(()=> [
+  { name: 'title', label: t('course_name'), sortable: true, type: 'imageText' },
+  { name: 'InstructorName', label: t('instructor'), type: 'imageText', sortable: true },
+  { name: 'priceFormatted', label: t('amount'), type: 'text', sortable: true },
+  { name: 'date', label: t('added_date'), type: 'text', sortable: true },
+  { name: 'statusColor', label: t('status'), type: 'badge', sortable: true },
   {
     name: 'actions',
-    label: 'Actions',
+    label: t('action'),
     type: 'action',
     actions: [
       { name: 'View', event: 'view', icone: '👁️‍🗨️' },
@@ -307,16 +274,16 @@ const columns: TableColumn[] = [
       { name: 'Delete', event: 'delete', icone: '🗑️' },
     ],
   },
-]
+])
 
-const filterOptions = [
-  { name: 'Newest', api: 'new' },
-  { name: 'Oldest ', api: 'old' },
-  { name: 'A-Z', api: 'a-z' },
-  { name: 'Z-A', api: 'z-a' },
-  { name: 'Published First', api: 'published' },
-  { name: 'Unpublished First', api: 'Unpublished' },
-]
+const filterOptions = computed(()=>[
+  { name: t('filters.newest'), api: 'new' },
+  { name: t('filters.oldest'), api: 'old' },
+  { name: t('filters.az'), api: 'a-z' },
+  { name: t('filters.za'), api: 'z-a' },
+  { name: t('filters.publishedFirst'), api: 'published' },
+  { name: t('filters.unpublishedFirst'), api: 'Unpublished' },
+])
 
 const pageNumber = ref(1)
 const pageSize = ref(10)
@@ -401,9 +368,9 @@ const tabs = computed(() => {
   const suspended = courses.value.filter((c) => c.status === 'Suspended').length
 
   return [
-    { key: 'all', label: 'All Courses', count: all },
-    { key: 'submitted', label: 'Submitted Courses', count: submitted },
-    { key: 'suspended', label: 'Suspended Courses', count: suspended },
+    { key: 'all', label: t('tabs.allCourses'), count: all },
+    { key: 'submitted', label: t('tabs.submittedCourses'), count: submitted },
+    { key: 'suspended', label:  t('tabs.suspendedCourses'), count: suspended },
   ]
 })
 

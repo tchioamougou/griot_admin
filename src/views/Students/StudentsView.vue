@@ -1,13 +1,13 @@
 <template>
   <AdminLayout>
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
       <!-- Header Section -->
-      <div class="bg-white border-b border-gray-200 rounded-t-xl">
+      <div class="bg-white border-b border-gray-200 rounded-t-xl dark:bg-gray-900">
         <div class="px-6 py-8">
           <div class="flex items-center justify-between">
             <div>
               <div class="flex items-center space-x-3">
-                <div class="p-2 bg-indigo-100 rounded-lg">
+                <div class="p-2 bg-indigo-100 rounded-lg ">
                   <svg
                     class="w-6 h-6 text-indigo-600"
                     fill="none"
@@ -23,8 +23,8 @@
                   </svg>
                 </div>
                 <div>
-                  <h1 class="text-3xl font-bold text-gray-900">Étudiants</h1>
-                  <p class="text-sm text-gray-500 mt-1">Gérez votre liste d'étudiants</p>
+                  <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $t('students') }}</h1>
+                  <p class="text-sm text-gray-500 mt-1">{{ $t('manage_students') }}</p>
                 </div>
               </div>
             </div>
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Filters and Controls -->
-      <div class="px-6 py-6 bg-white border-b border-gray-200">
+      <div class="px-6 py-6 bg-white border-b border-gray-200 dark:bg-gray-900">
         <div
           class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0"
           :class="[!showList ? 'justify-between' : 'justify-end']"
@@ -63,7 +63,7 @@
               <input
                 v-model="searchText"
                 type="text"
-                placeholder="Rechercher un étudiant..."
+                :placeholder="$t('search...')"
                 class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>
@@ -72,7 +72,7 @@
           <!-- View toggles and stats -->
           <div class="flex items-center justify-between lg:justify-end space-x-4">
             <div class="text-sm text-gray-500">
-              <span class="font-medium text-gray-900">{{ filteredStudents.length }}</span> étudiants
+              <span class="font-medium text-gray-900">{{ filteredStudents.length }}</span> {{ $t('students') }}
             </div>
 
             <div class="flex items-center bg-gray-100 rounded-lg p-1">
@@ -133,8 +133,8 @@
               d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
             ></path>
           </svg>
-          <h3 class="mt-4 text-lg font-medium text-gray-900">Aucun étudiant trouvé</h3>
-          <p class="mt-2 text-sm text-gray-500">Essayez de modifier vos critères de recherche.</p>
+          <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('no_students') }}</h3>
+          <p class="mt-2 text-sm text-gray-500">{{ $t('try_search') }}</p>
         </div>
 
         <!-- Card View -->
@@ -158,13 +158,12 @@
               :items="columns"
               :datas="filteredStudents"
               :showHeader="true"
-              title="student"
+              :title="$t('students')"
               :pageSize="10"
               :pagination="true"
               :showButtonAllElement="true"
               :filterable="true"
               :loading="loading"
-              @view="onViewCourse"
               class="modern-table"
             />
 
@@ -184,6 +183,8 @@ import TableComponent from '@/components/tables/TableComponent.vue'
 import Select from '@/components/forms/FormElements/Select.vue'
 import { getUserByRoles, getAllRoles } from '@/services/griot_service'
 import type { TableColumn } from '@/types/table'
+import type { ComputedRef } from 'vue'
+import { useI18n } from "vue-i18n";
 
 interface Student {
   id: number
@@ -209,16 +210,17 @@ const activeDropdown = ref<number | null>(null)
 const pageNumber = ref(1)
 const pageSize = ref(10)
 const loading = ref(true)
+const { t } = useI18n();
 
-const columns: TableColumn[] = [
-  { name: 'name', label: 'Student Name', sortable: true, type: 'text' },
-  { name: 'course', label: 'Courses', type: 'imageText', sortable: true },
-  { name: 'payments', label: 'Payments', type: 'text', sortable: true },
-  { name: 'joinDate', label: 'Join date', type: 'text', sortable: true },
-  { name: 'progress', label: 'Progress', type: 'percentage', sortable: true },
+const columns: ComputedRef<TableColumn[]>  = computed(()=> [
+  { name: 'name', label: t('student_name'), sortable: true, type: 'text' },
+  { name: 'course', label: t('courses'), type: 'imageText', sortable: true },
+  { name: 'payments', label: t('payments'), type: 'text', sortable: true },
+  { name: 'joinDate', label: t('join_date'), type: 'text', sortable: true },
+  { name: 'progress', label: t('progress'), type: 'percentage', sortable: true },
   {
     name: 'actions',
-    label: 'Actions',
+    label: t('action'),
     type: 'action',
     actions: [
       { name: 'View', event: 'view', icone: '👁️‍🗨️' },
@@ -226,7 +228,7 @@ const columns: TableColumn[] = [
       { name: 'Delete', event: 'delete', icone: '🗑️' },
     ],
   },
-]
+])
 
 // const students = ref<Student[]>([
 //   {

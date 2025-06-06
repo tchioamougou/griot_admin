@@ -8,7 +8,7 @@ export const useAuthStore = defineStore('auth', {
     user: useStorage<any | null>('user', null),
   }),
   getters: {
-    isLoggedIn: (state) => !!state.user, // Determine if user is logged in
+    isLoggedIn: (state) => !!state.user,
     getUser: (state) => state.user
   },
   actions: {
@@ -22,4 +22,5 @@ export const useAuthStore = defineStore('auth', {
       this.token = null
     },
   },
+  persist: true
 })

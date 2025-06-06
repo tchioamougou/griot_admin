@@ -1,8 +1,8 @@
 <template>
   <AdminLayout>
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
       <!-- Header Section -->
-      <div class="bg-white border-b border-gray-200 rounded-t-xl">
+      <div class="bg-white border-b border-gray-200 rounded-t-xl dark:bg-gray-900">
         <div class="px-6 py-8">
           <div class="flex items-center justify-between">
             <div>
@@ -11,8 +11,8 @@
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check text-indigo-600"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 19 2 2 4-4"/></svg>
                 </div>
                 <div>
-                  <h1 class="text-3xl font-bold text-gray-900">Instructors</h1>
-                  <p class="text-sm text-gray-500 mt-1">Gérez votre liste d'instructeurs</p>
+                  <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $t('instructors') }}</h1>
+                  <p class="text-sm text-gray-500 mt-1">{{ $t('manage_instructors') }}</p>
                 </div>
               </div>
             </div>
@@ -21,7 +21,7 @@
       </div>
 
       <!-- Filters and Controls -->
-      <div class="px-6 py-6 bg-white border-b border-gray-200">
+      <div class="px-6 py-6 bg-white border-b border-gray-200 dark:bg-gray-900">
         <div
           class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0"
           :class="[!showList ? 'justify-between' : 'justify-end']"
@@ -49,7 +49,7 @@
               <input
                 v-model="searchText"
                 type="text"
-                placeholder="Rechercher ..."
+                :placeholder="$t('search...')"
                 class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>
@@ -58,7 +58,7 @@
           <!-- View toggles and stats -->
           <div class="flex items-center justify-between lg:justify-end space-x-4">
             <div class="text-sm text-gray-500">
-              <span class="font-medium text-gray-900">{{ totalInstructor }}</span> instructeurs
+              <span class="font-medium text-gray-900">{{ totalInstructor }}</span> {{ $t('instructors') }}
             </div>
 
             <div class="flex items-center bg-gray-100 rounded-lg p-1">
@@ -119,8 +119,8 @@
               d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
             ></path>
           </svg>
-          <h3 class="mt-4 text-lg font-medium text-gray-900">Aucun instructeur trouvé</h3>
-          <p class="mt-2 text-sm text-gray-500">Essayez de modifier vos critères de recherche.</p>
+          <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('no_instructor') }}</h3>
+          <p class="mt-2 text-sm text-gray-500">{{ $t('try_search') }}</p>
         </div>
 
         <!-- Card View -->
@@ -146,7 +146,7 @@
               :items="columns"
               :datas="filteredInstructors"
               :showHeader="true"
-              title="Instructor"
+              :title="$t('instructors')"
               :pageSize="10"
               :pagination="true"
               @pageChange="handlePageChange"
@@ -174,7 +174,8 @@ import Select from '@/components/forms/FormElements/Select.vue'
 import { getUserByRoles, getAllRoles } from '@/services/griot_service'
 import type { TableColumn } from '@/types/table'
 import {formatDateT} from '@/components/utilities/UtilityFunction'
-
+import { useI18n } from "vue-i18n";
+import type { ComputedRef } from 'vue'
 
 
 const showList = ref<boolean>(false)
@@ -186,17 +187,18 @@ const showError = ref(false);
 const pageNumber = ref(1)
 const pageSize = ref(10)
 const loading = ref(true)
+const { t } = useI18n();
 
-const columns: TableColumn[] = [
-  { name: 'name', label: 'Instructor name', sortable: true, type: 'text' },
-  { name: 'headLine', label: 'Headline', type: 'text', sortable: true },
-  { name: 'totalCourses', label: 'Total courses', type: 'text', sortable: true },
-  { name: 'totalStudents', label: 'Students', type: 'text', sortable: true },
-  { name: 'rating', label: 'Rating', type: 'rating', sortable: true },
-  { name: 'date', label: 'Joined', type: 'text', sortable: true },
+const columns:ComputedRef<TableColumn[]>  = computed(()=> [
+  { name: 'name', label: t('instructor_name'), sortable: true, type: 'text' },
+  { name: 'headLine', label: t('headline'), type: 'text', sortable: true },
+  { name: 'totalCourses', label: t('total_course'), type: 'text', sortable: true },
+  { name: 'totalStudents', label: t('students'), type: 'text', sortable: true },
+  { name: 'rating', label: t('rating'), type: 'rating', sortable: true },
+  { name: 'date', label: t('joined'), type: 'text', sortable: true },
   {
     name: 'actions',
-    label: 'Actions',
+    label: t('action'),
     type: 'action',
     actions: [
       { name: 'View', event: 'view', icone: '👁️‍🗨️' },
@@ -204,7 +206,7 @@ const columns: TableColumn[] = [
       { name: 'Delete', event: 'delete', icone: '🗑️' },
     ],
   },
-]
+])
 
 
 const totalInstructor = computed(() => { return (records.value && records.value.length) ?? 0 });
@@ -315,7 +317,7 @@ const handleDelete = (instructor: any): void => {
   console.log('Supprimer:', instructor.name)
   activeDropdown.value = null
   if (confirm(`Êtes-vous sûr de vouloir supprimer ${instructor.name} ?`)) {
-    const index = records.value.findIndex((s) => s.id === instructor.id)
+    const index = records.value.findIndex((s:any) => s.id === instructor.id)
     if (index > -1) {
       records.value.splice(index, 1)
     }

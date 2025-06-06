@@ -313,7 +313,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Modal from '../modal/Modal.vue'
+import Modal from '../modal/ModalComponent.vue'
 
 const isProfileInfoModal = ref(false)
 

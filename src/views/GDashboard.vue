@@ -15,16 +15,16 @@
         <div class="lg:col-span-2 bg-white rounded-lg shadow-sm p-6 dark:bg-gray-700 dark:text-white">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
-              Course Enrollment Analytics
+              {{ $t('course_enrollment') }}
             </h2>
             <select
               class="bg-gray-100 dark:bg-gray-700 border dark:text-white border-gray-200 text-gray-700 py-1 px-3 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               v-model="selectedRange"
             >
-              <option>Last 7 days</option>
-              <option>Last 30 days</option>
-              <option>Last 3 months</option>
-              <option>Last 12 months</option>
+              <option>{{ $t('last7') }}</option>
+              <option>{{ $t('last30') }}</option>
+              <option>{{ $t('last3') }}</option>
+              <option>{{ $t('last1') }}</option>
             </select>
           </div>
           <CourseProgressChart />
@@ -32,7 +32,7 @@
 
         <div class="bg-white rounded-lg shadow-sm p-6 dark:bg-gray-700 ">
           <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
-            Upcoming Schedule
+            {{ $t('upcoming') }}
           </h2>
           <div class="space-y-4">
             <div class="flex items-start" v-for="event in schedule" :key="event.title">
@@ -46,7 +46,7 @@
             </div>
           </div>
           <button class="mt-4 w-full text-center text-sm text-blue-600 hover:text-blue-700 font-medium">
-            View All Events
+            {{ $t('all_views') }}
           </button>
         </div>
       </div>
@@ -80,14 +80,15 @@ import StatCard from '@/components/dashboard/StatCard.vue'
 import CourseProgressChart from '@/components/dashboard/CourseProgressChart.vue'
 import RecentActivity from '@/components/dashboard/RecentActivity.vue'
 import TopCourses from '@/components/dashboard/TopCourses.vue'
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
+import { useI18n } from "vue-i18n";
 
 const selectedRange = ref('Last 7 days')
+const { t } = useI18n();
 
-
-const stats = [
+const stats = computed(()=> [
   {
-    title: 'Total Students',
+    title: t('total_students'),
     value: '2,845',
     change: '+12.5%',
     trend: "up" as "up",
@@ -95,7 +96,7 @@ const stats = [
     color: 'blue',
   },
   {
-    title: 'Active Courses',
+    title: t('active_courses'),
     value: '42',
     change: '+4.2%',
     trend: "up" as "up",
@@ -103,15 +104,15 @@ const stats = [
     color: 'green',
   },
   {
-    title: 'Total Earnings',
-    value: '$94,256',
+    title: t('total_earnings'),
+    value: '942560 FCFA',
     change: '+18.3%',
     trend: "up" as "up",
     icon: DollarSign,
     color: 'purple',
   },
   {
-    title: 'Average Rating',
+    title: t('average_rating'),
     value: '4.8',
     change: '+0.2',
     trend: "up" as "up",
@@ -119,30 +120,31 @@ const stats = [
     color: 'amber',
   },
 ]
+)
 
-const schedule = [
+const schedule = computed(()=> [
   {
-    title: 'French Webinar',
-    time: 'Today, 2:00 PM',
+    title: t('french_webinar'),
+    time: t('today_pm'),
     icon: Calendar,
     bgClass: 'bg-blue-100',
     iconColor: 'text-blue-600',
   },
   {
-    title: 'Spanish Course Review',
-    time: 'Tomorrow, 10:00 AM',
+    title: t('spanish_course'),
+    time: t('tomorrow_pm'),
     icon: CheckCircle,
     bgClass: 'bg-green-100',
     iconColor: 'text-green-600',
   },
   {
-    title: 'New Instructor Onboarding',
-    time: 'Jul 15, 1:00 PM',
+    title: t('nw_isntructor'),
+    time: t('jul'),
     icon: AlertCircle,
     bgClass: 'bg-amber-100',
     iconColor: 'text-amber-600',
   },
-]
+])
 </script>
 
 <style scoped>

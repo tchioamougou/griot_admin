@@ -1,105 +1,4 @@
-<!-- <template>
-  <div class="row">
-    <div
-      class="col-md-4 mb-4"
-      v-for="student in paginatedRecords"
-      :key="student.id"
-    >
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">{{ student.name }}</h5>
-          <p class="card-text text-muted mb-1">
-            <i class="bi bi-envelope"></i> {{ student.email }}
-          </p>
-          <slot name="extra" :student="student"></slot>
-        </div>
-      </div>
-    </div>
-    <div v-if="showPagination && totalPages > 1" class="d-flex justify-content-center mt-3">
-      <ul class="pagination">
-        <li class="page-item" :class="{ disabled: currentPage === 1 }">
-          <button class="page-link" @click="prevPage">&laquo;</button>
-        </li>
-        <li
-          class="page-item"
-          v-for="page in totalPages"
-          :key="page"
-          :class="{ active: currentPage === page }"
-        >
-          <button class="page-link" @click="changePage(page)">
-            {{ page }}
-          </button>
-        </li>
-        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-          <button class="page-link" @click="nextPage">&raquo;</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</template>
 
-<script setup lang="ts">
-import { ref, computed, watch, defineProps } from 'vue';
-
-interface Student {
-  id: number;
-  name: string;
-  email: string;
-}
-
-const props = defineProps<{
-  records: Student[];
-  pageSize?: number;
-}>();
-
-const currentPage = ref(1);
-const pageSize = props.pageSize || 6;
-
-watch(
-  () => props.records,
-  () => {
-    currentPage.value = 1;
-  }
-);
-
-const totalPages = computed(() => {
-  return Math.ceil(props.records.length / pageSize);
-});
-
-const paginatedRecords = computed(() => {
-  const start = (currentPage.value - 1) * pageSize;
-  return props.records.slice(start, start + pageSize);
-});
-
-const showPagination = computed(() => props.records.length > pageSize);
-
-function changePage(page: number) {
-  if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page;
-  }
-}
-
-function nextPage() {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-  }
-}
-
-function prevPage() {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-}
-</script>
-
-<style scoped>
-.card-title {
-  font-weight: 600;
-}
-.card-text {
-  font-size: 0.9rem;
-}
-</style> -->
 <template>
   <div>
     <!-- Loading Skeleton -->
@@ -128,7 +27,7 @@ function prevPage() {
                 <div
                   :class="[
                     'absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white',
-                    getStatusColor(student.status.value)
+                    getStatusColor(student.status?.value)
                   ]"
                 ></div>
               </div>
@@ -164,7 +63,7 @@ function prevPage() {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  Voir le profil
+                 {{ $t('view_profil') }}
                 </button>
                 <button
                   @click="$emit('edit', student)"
@@ -174,7 +73,7 @@ function prevPage() {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   </svg>
-                  Modifier
+                  {{ $t('edit') }}
                 </button>
                 <hr class="my-1" />
                 <button
@@ -185,7 +84,7 @@ function prevPage() {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
-                  Supprimer
+                  {{ $t('delete') }}
                 </button>
               </div>
             </div>
@@ -198,27 +97,27 @@ function prevPage() {
               <span
                 :class="[
                   'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                  getBadgeColor(student.status.value)
+                  getBadgeColor(student.status?.value)
                 ]"
               >
-                {{ student.status.label }}
+                {{ student.status?.label }}
               </span>
             </div>
 
             <div class="w-full bg-gray-200 rounded-full h-2">
               <div
-                :class="[getProgressBarColor(student.status.value), 'h-2 rounded-full transition-all duration-300']"
+                :class="[getProgressBarColor(student.status?.value), 'h-2 rounded-full transition-all duration-300']"
                 :style="{ width: student.progress + '%' }"
               ></div>
             </div>
 
             <div class="flex justify-between items-center mt-1">
-              <span class="text-xs text-gray-500">Progression</span>
+              <span class="text-xs text-gray-500">{{ $t('progress') }}</span>
               <span class="text-xs font-medium text-gray-700">{{ student.progress }}%</span>
             </div>
           </div>
 
-          <div class="text-xs text-gray-500">Inscrit le {{ formatDate(student.joinDate) }}</div>
+          <div class="text-xs text-gray-500">{{ $t('joined') }} {{ formatDate(student.joinDate) }}</div>
         </div>
       </div>
     </div>

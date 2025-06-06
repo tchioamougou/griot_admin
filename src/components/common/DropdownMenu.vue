@@ -74,7 +74,7 @@ const handleMenuItemClick = (callback?: () => void) => {
 };
 </script>
 
-<script lang="ts">
+<!-- <script lang="ts">
 import type { Directive } from 'vue';
 import vClickOutside from './v-click-outside.vue';
 
@@ -83,4 +83,4 @@ export default {
     clickOutside: vClickOutside as Directive,
   },
 };
-</script>
+</script> -->

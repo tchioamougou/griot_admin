@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white rounded-lg shadow-sm p-6 dark:bg-gray-700">
-    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Recent Activity</h2>
+    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">{{ $t('recent_activity') }}</h2>
     <div class="space-y-4">
       <div
         v-for="activity in activities"
@@ -27,65 +27,67 @@
     <button
       class="mt-4 w-full text-center text-sm text-blue-600 hover:text-blue-700 font-medium"
     >
-      View All Activities
+      {{ $t('view_all_activity') }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { User, BookOpen, MessageCircle, DollarSign } from 'lucide-vue-next'
+import {computed} from 'vue'
+import { useI18n } from "vue-i18n";
 
-interface Activity {
-  id: number
-  user: string
-  action: string
-  target: string
-  time: string
-  icon: any
-  iconBg: string
-  iconColor: string
-}
-
-const activities: Activity[] = [
-  {
-    id: 1,
-    user: 'Emma Thompson',
-    action: 'enrolled in',
-    target: 'Advanced Spanish Conversation',
-    time: '5 minutes ago',
-    icon: User,
-    iconBg: 'bg-blue-100',
-    iconColor: 'text-blue-600',
-  },
-  {
-    id: 2,
-    user: 'John Martinez',
-    action: 'completed',
-    target: 'French Basics Module 3',
-    time: '2 hours ago',
-    icon: BookOpen,
-    iconBg: 'bg-green-100',
-    iconColor: 'text-green-600',
-  },
-  {
-    id: 3,
-    user: 'Sarah Chen',
-    action: 'left a review on',
-    target: 'Japanese for Beginners',
-    time: '4 hours ago',
-    icon: MessageCircle,
-    iconBg: 'bg-amber-100',
-    iconColor: 'text-amber-600',
-  },
-  {
-    id: 4,
-    user: 'Michael Johnson',
-    action: 'purchased',
-    target: 'German Language Bundle',
-    time: '6 hours ago',
-    icon: DollarSign,
-    iconBg: 'bg-purple-100',
-    iconColor: 'text-purple-600',
-  },
-]
+// interface Activity {
+//   id: number
+//   user: string
+//   action: string
+//   target: string
+//   time: string
+//   icon: any
+//   iconBg: string
+//   iconColor: string
+// }
+const { t } = useI18n();
+const activities = computed(() => [
+    {
+      id: 1,
+      user: 'Emma Thompson',
+      action: t('activities.enrolled'),
+      target: t('activities.courses.spanish_advanced'),
+      time: t('activities.ago.5min'),
+      icon: User,
+      iconBg: 'bg-blue-100',
+      iconColor: 'text-blue-600',
+    },
+    {
+      id: 2,
+      user: 'John Martinez',
+      action: t('activities.completed'),
+      target: t('activities.courses.french_module3'),
+      time: t('activities.ago.2h'),
+      icon: BookOpen,
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-600',
+    },
+    {
+      id: 3,
+      user: 'Sarah Chen',
+      action: t('activities.reviewed'),
+      target: t('activities.courses.japanese_beginners'),
+      time: t('activities.ago.4h'),
+      icon: MessageCircle,
+      iconBg: 'bg-amber-100',
+      iconColor: 'text-amber-600',
+    },
+    {
+      id: 4,
+      user: 'Michael Johnson',
+      action: t('activities.purchased'),
+      target: t('activities.courses.german_bundle'),
+      time: t('activities.ago.6h'),
+      icon: DollarSign,
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600',
+    },
+  ])
 </script>

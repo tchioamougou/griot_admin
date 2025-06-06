@@ -1,11 +1,10 @@
 <template>
-  <slot></slot>
+  <slot />
 </template>
 
 <script setup lang="ts">
-import { ref, provide, onMounted, watch, computed } from 'vue'
-
-type Theme = 'light' | 'dark'
+import { ref, provide, onMounted, watch, computed, type Ref } from 'vue'
+import type { Theme, ThemeContext } from '@/composables/useTheme'
 
 const theme = ref<Theme>('light')
 const isInitialized = ref(false)
@@ -18,37 +17,20 @@ const toggleTheme = () => {
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme') as Theme | null
-  const initialTheme = savedTheme || 'light' // Default to light theme
-
+  const initialTheme = savedTheme || 'light'
   theme.value = initialTheme
   isInitialized.value = true
 })
 
-watch([theme, isInitialized], ([newTheme, newIsInitialized]) => {
-  if (newIsInitialized) {
+watch([theme, isInitialized], ([newTheme, initialized]) => {
+  if (initialized) {
     localStorage.setItem('theme', newTheme)
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    document.documentElement.classList.toggle('dark', newTheme === 'dark')
   }
 })
 
-provide('theme', {
+provide<ThemeContext>('theme', {
   isDarkMode,
   toggleTheme,
 })
-</script>
-
-<script lang="ts">
-import { inject } from 'vue'
-
-export function useTheme() {
-  const theme = inject('theme')
-  if (!theme) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-  return theme
-}
 </script>

@@ -273,7 +273,7 @@
 
                 <!-- Texte par défaut -->
                 <template v-else>
-                  <span class="text-gray-900 dark:text-white font-medium text-md truncate max-w-[150px]">{{ row[item.name] }}</span>
+                  <span class="text-gray-900 dark:text-white font-medium text-md w-50 overflow-hidden text-ellipsis whitespace-normal break-words">{{ row[item.name] }}</span>
                 </template>
               </div>
 

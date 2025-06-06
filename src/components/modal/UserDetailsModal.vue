@@ -1,86 +1,4 @@
-<!-- <template>
-  <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-    <div class="bg-white max-w-2xl w-full rounded-2xl shadow-2xl p-6 relative">
-      <button @click="close" class="absolute top-3 right-3 text-gray-400 hover:text-black text-xl">
-        ✕
-      </button>
 
-      <div class="flex gap-6 items-start">
-        <div class="flex-shrink-0">
-          <img
-            v-if="user.picture"
-            :src="user.picture"
-            alt="Photo utilisateur"
-            class="w-24 h-24 rounded-full object-cover border"
-          />
-          <div v-else class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-4xl">
-            <span>{{ userInitials }}</span>
-          </div>
-        </div>
-        <div class="flex-1">
-          <h2 class="text-2xl font-semibold mb-2">{{ user.name }}</h2>
-          <p class="text-sm text-gray-500 mb-4">{{ user.email }}</p>
-
-          <div class="space-y-2">
-            <UserDetail label="Actif" :value="user.isActive ? 'Oui' : 'Non'" />
-            <UserDetail label="Alertes Instructeur" :value="user.alertInstructor ? 'Oui' : 'Non'" />
-            <UserDetail label="Alertes Étudiant" :value="user.alertStudent ? 'Oui' : 'Non'" />
-            <UserDetail label="Devise" :value="user.currencyName + ' (' + user.currencySymbol + ')'" />
-            <UserDetail label="Crédits Griot" :value="user.griotCredits.toString()" />
-            <UserDetail label="Gains ce mois-ci" :value="formatCurrency(user.earnsThisMonth)" />
-            <UserDetail label="Inscription" :value="formatDate(user.createdDate)" />
-            <UserDetail label="Dernière modification" :value="formatDate(user.lastModifyDate)" />
-            <UserDetail label="Code de parrainage" :value="user.referralCode" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-import UserDetail from './UserDetail.vue';
-import { defineProps, defineEmits, computed } from 'vue';
-
-interface User {
-  name: string;
-  email: string;
-  isActive: boolean;
-  alertInstructor: boolean;
-  alertStudent: boolean;
-  currencyName: string;
-  currencySymbol: string;
-  earnsThisMonth: number;
-  griotCredits: number;
-  createdDate: string;
-  lastModifyDate: string;
-  referralCode: string;
-  picture: string | null;
-}
-
-const props = defineProps<{ user: User }>();
-const emit = defineEmits(['close']);
-
-const close = () => emit('close');
-
-const formatDate = (date: string) =>
-  new Date(date).toLocaleDateString('fr-FR', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
-
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(value);
-
-const userInitials = computed(() => {
-  const names = props.user.name.trim().split(' ');
-  return names.map(n => n[0].toUpperCase()).slice(0, 2).join('');
-});
-</script> -->
 <template>
   <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto modal z-99999">
     <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden relative animate-scale-in">
@@ -121,13 +39,14 @@ const userInitials = computed(() => {
 
           <div class="text-white text-center sm:text-left flex-1">
             <h2 class="text-2xl sm:text-3xl font-bold mb-1">{{ user.name }}</h2>
-            <p class="text-white/80 text-base sm:text-lg mb-3">{{ user.email }}</p>
+            <p class="text-white/80 text-base sm:text-lg mb-1">{{ user.email }}</p>
+            <p class="text-white/80 text-base sm:text-md mb-3">{{ user.phoneNumber }}</p>
             <div class="flex flex-wrap justify-center sm:justify-start items-center gap-2 text-xs sm:text-sm">
               <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30">
-                {{ user.isActive ? '✓ Actif' : '⚠ Inactif' }}
+                {{ user.isActive ? $t('actif') : $t('inactif') }}
               </span>
               <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30">
-                {{ user.griotCredits }} crédits
+                {{ user.griotCredits }} {{ $t('credits') }}
               </span>
               <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30">
                 {{ user.currencySymbol }} {{ user.currencyName }}
@@ -142,7 +61,7 @@ const userInitials = computed(() => {
         <!-- Stats cards - Responsive Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <StatCard
-            title="Gains ce mois"
+            :title="$t('earnings_month')"
             :value="formatCurrency(user.earnsThisMonth)"
             icon="💰"
             gradient="from-green-400 to-emerald-600"
@@ -151,7 +70,7 @@ const userInitials = computed(() => {
           />
 
           <StatCard
-            title="Crédits Griot"
+            :title="$t('griot_credits')"
             :value="user.griotCredits.toString()"
             icon="⭐"
             gradient="from-blue-400 to-indigo-600"
@@ -160,7 +79,7 @@ const userInitials = computed(() => {
           />
 
           <StatCard
-            title="Code parrainage"
+            :title="$t('sponsorship_code')"
             :value="user.referralCode"
             icon="🎯"
             gradient="from-purple-400 to-pink-600"
@@ -174,17 +93,17 @@ const userInitials = computed(() => {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 ">
           <!-- Section Paramètres -->
           <InfoSection
-            title="Paramètres"
+            :title="$t('setting')"
             icon="⚙️"
             :items="[
               {
-                label: 'Alertes Instructeur',
+                label: t('instructor_alerts'),
                 value: user.alertInstructor,
                 type: 'boolean',
                 icon: '🔔'
               },
               {
-                label: 'Alertes Étudiant',
+                label: t('student_alerts'),
                 value: user.alertStudent,
                 type: 'boolean',
                 icon: '📚'
@@ -194,17 +113,17 @@ const userInitials = computed(() => {
 
           <!-- Section Informations -->
           <InfoSection
-            title="Informations"
+            :title="$t('informations')"
             icon="📊"
             :items="[
               {
-                label: 'Date d\'inscription',
+                label: t('created_date'),
                 value: formatDate(user.createdDate),
                 type: 'date',
                 icon: '📅'
               },
               {
-                label: 'Dernière modification',
+                label: t('last_modified'),
                 value: formatDate(user.lastModifyDate),
                 type: 'date',
                 icon: '🔄'
@@ -221,6 +140,12 @@ const userInitials = computed(() => {
 import { defineProps, defineEmits, computed } from 'vue';
 import InfoSection from './InfoSection.vue';
 import StatCard from './StatCard.vue'
+import { useI18n } from "vue-i18n";
+
+
+
+
+const { t } = useI18n();
 
 interface User {
   name: string;
@@ -236,6 +161,7 @@ interface User {
   lastModifyDate: string;
   referralCode: string;
   picture: string | null;
+  phoneNumber:number | null
 }
 
 const props = defineProps<{ user: User }>();

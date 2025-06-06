@@ -30,7 +30,7 @@ export function convertSecondsToTime(seconds) {
   return `${hours}h ${remainingMinutes} min`;
 }
 */
-export const formatDateT = (dt) => {
+export const formatDateT = (dt:any) => {
   const date = new Date(dt);
 
   if (isNaN(date.getTime())) {
@@ -48,9 +48,9 @@ export const formatDateT = (dt) => {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
 
-export const getCurrencyDefault = () => {
-  return (storeUser.user && storeUser.user.currencyCode) ? storeUser.user.currencyCode : 'eur';
-}
+// export const getCurrencyDefault = () => {
+//   return (storeUser.user && storeUser.user.currencyCode) ? storeUser.user.currencyCode : 'eur';
+// }
 export const getCurrencySymbolDefault = () => {
   return CURRENCY_CODE["eur".toUpperCase() as keyof typeof CURRENCY_CODE].symbol;
 }
