@@ -29,8 +29,8 @@
 
         <img
         v-if="isExpanded || isHovered || isMobileOpen"
-        class="dark:hidden rounded-full w-10"
-        src=""
+        class="dark:hidden rounded-full w-14"
+        src="@/assets/images/logo/GRIOT-withe-v1.png"
         alt="Logo"
 
         />

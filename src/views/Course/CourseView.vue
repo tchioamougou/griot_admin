@@ -96,117 +96,12 @@
         <SimpleCard :name="$t('building_courses')" :count="buildingCoureses" />
       </div>
 
-      <!-- Vue Cartes (moderne) -->
-      <!-- <div  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-        <div
-          v-for="(record, index) in filteredRecords"
-          :key="index"
-          class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 hover:-translate-y-2"
-        >
-
-          <div :class="[
-            'h-2 w-full',
-            record.status.label === 'Actif' ? 'bg-gradient-to-r from-green-400 to-emerald-500' :
-            record.status.label === 'En cours' ? 'bg-gradient-to-r from-blue-400 to-cyan-500' :
-            record.status.label === 'Complété' ? 'bg-gradient-to-r from-purple-400 to-pink-500' :
-            'bg-gradient-to-r from-yellow-400 to-orange-500'
-          ]"></div>
-
-          <div class="p-6">
-
-            <div class="flex items-center space-x-4 mb-4">
-              <div class="relative">
-                <img
-                  :src="record.avatar"
-                  :alt="record.name"
-                  class="w-16 h-16 rounded-2xl object-cover ring-4 ring-white shadow-lg"
-                />
-                <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-3 border-white flex items-center justify-center">
-                  <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                  </svg>
-                </div>
-              </div>
-
-              <div class="flex-1 min-w-0">
-                <h3 class="text-lg font-bold text-gray-900 truncate">{{ record.name }}</h3>
-                <p class="text-gray-500 text-sm truncate">{{ record.email }}</p>
-              </div>
-            </div>
-
-
-            <div class="mb-4">
-              <span :class="[
-                'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold',
-                record.status.bg,
-                record.status.text
-              ]">
-                {{ record.status.label }}
-              </span>
-            </div>
-
-
-            <div class="mb-6">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-medium text-gray-700">Progression</span>
-                <span class="text-sm font-bold text-gray-900">{{ record.progress }}%</span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                <div
-                  :class="[
-                    'h-2 rounded-full transition-all duration-1000 ease-out',
-                    record.progress >= 80 ? 'bg-gradient-to-r from-green-400 to-emerald-500' :
-                    record.progress >= 50 ? 'bg-gradient-to-r from-blue-400 to-cyan-500' :
-                    'bg-gradient-to-r from-yellow-400 to-orange-500'
-                  ]"
-                  :style="{ width: record.progress + '%' }"
-                ></div>
-              </div>
-            </div>
-
-
-            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-              <button
-                @click="viewProfile(record)"
-                class="flex items-center space-x-2 text-indigo-600 hover:text-indigo-800 text-sm font-semibold group"
-              >
-                <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-                <span>Voir</span>
-              </button>
-
-              <div class="flex items-center space-x-2">
-                <button
-                  @click="editRecord(record)"
-                  class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
-                >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                  </svg>
-                </button>
-                <button
-                  @click="deleteRecord(record)"
-                  class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
-                >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-        </div>
-      </div> -->
+   
 
       <!-- Vue Tableau (modernisée) -->
-      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden dark:bg-gray-900">
+      <div class="bg-white rounded-2xl  border border-gray-100 overflow-hidden dark:bg-gray-900">
         <div class="overflow-x-auto">
-          <div class="bg-white shadow-md rounded-xl p-6 mt-6 dark:bg-gray-900">
+          <div class="bg-white shadow-md rounded-xl dark:bg-gray-900">
             <TableComponent
               :items="columns"
               :datas="filteredCourses"
@@ -220,6 +115,7 @@
               :filterable="true"
               :loading="loading"
               @view="onViewCourse"
+              @approve="onApproveCourse"
               class="modern-table"
             />
           </div>
@@ -231,7 +127,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import PageBreadcrumb from '@/components/common/PageBreadcrumb.vue'
 import AdminLayout from '@/components/layout/AdminLayout.vue'
 import TableComponent from '@/components/tables/TableComponent.vue'
 import { getAllCourses } from '@/services/griot_service'
@@ -243,13 +138,9 @@ import type { ComputedRef } from 'vue'
 import { useI18n } from "vue-i18n";
 
 // État réactif
-const searchQuery = ref('')
 const activeTab = ref('all')
-const viewMode = ref('cards')
-const sortBy = ref('name')
 const loading = ref(false)
 const courses = ref<Course[]>([])
-const isLoading = ref(false)
 const error = ref<string | null>(null)
 const totalCourses = ref<number | null>(null)
 const activatedCoureses = ref<number | null>(null)
@@ -270,7 +161,6 @@ const columns:  ComputedRef<TableColumn[]>  = computed(()=> [
     type: 'action',
     actions: [
       { name: 'View', event: 'view', icone: '👁️‍🗨️' },
-      // { name: 'Edit', event: 'edit', icone: '✏️' },
       { name: 'Delete', event: 'delete', icone: '🗑️' },
     ],
   },
@@ -404,5 +294,9 @@ const handleCourseAction = (action: string, courseData: any) => {
     default:
       console.warn(`Action inconnue: ${action}`)
   }
+}
+
+const onApproveCourse = ()=>{
+  
 }
 </script>

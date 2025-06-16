@@ -1,7 +1,7 @@
 {
     "login": "Connexion",
-    "french":"Français",
-    "dashboard" : "Tableau de bord",
+    "french": "Français",
+    "dashboard": "Tableau de bord",
     "course": "Cours",
     "students": "Étudiants",
     "instructors": "Instructeurs",
@@ -12,12 +12,12 @@
     "roles": "Rôles",
     "layoutView": "Vue de mise en page",
     "setting": "Paramètres",
-    "datas" : "Données",
-    "item" : "Elément",
-    "search..." : "Rechercher...",
-    "noData" : "Aucune donnée disponible",
-    "try..." : "Essayez de modifier votre recherche",
-    "thedata" : "Les données apparaîtront ici",
+    "datas": "Données",
+    "item": "Elément",
+    "search...": "Rechercher...",
+    "noData": "Aucune donnée disponible",
+    "try...": "Essayez de modifier votre recherche",
+    "thedata": "Les données apparaîtront ici",
     "processing": "Traitement en cours",
     "cancel": "Annuler",
     "phone": "Téléphone",
@@ -42,20 +42,20 @@
     "name": "Nom",
     "joined": "Inscrit le",
     "action": "Actions",
-    "role" : "Role",
-    "informations" : "Informations",
+    "role": "Role",
+    "informations": "Informations",
     "filters": {
-    "newest": "Le plus récent",
-    "oldest": "Le plus ancien",
-    "az": "A-Z",
-    "za": "Z-A",
-    "publishedFirst": "Publié en premier",
-    "unpublishedFirst": "Non publié en premier"
+        "newest": "Le plus récent",
+        "oldest": "Le plus ancien",
+        "az": "A-Z",
+        "za": "Z-A",
+        "publishedFirst": "Publié en premier",
+        "unpublishedFirst": "Non publié en premier"
     },
     "tabs": {
-    "allCourses": "Tous les cours",
-    "submittedCourses": "Cours soumis",
-    "suspendedCourses": "Cours suspendus"
+        "allCourses": "Tous les cours",
+        "submittedCourses": "Cours soumis",
+        "suspendedCourses": "Cours suspendus"
     },
     "sponsorship_code": "Code de parrainage",
     "griot_credits": "Crédits Griot",
@@ -133,7 +133,7 @@
     "no_cancel": "Non, annuler",
     "notification_setting": "Paramètres de notification",
     "close_account": "Fermer le compte",
-    "home" : "Accueil",
+    "home": "Accueil",
     "recent_transaction": "Transactions récentes",
     "total_revenus": "Revenus totaux",
     "last_month": "le mois dernier",
@@ -248,28 +248,33 @@
         "reviewed": "a laissé un avis sur",
         "purchased": "a acheté",
         "courses": {
-        "spanish_advanced": "Conversation espagnole avancée",
-        "french_module3": "Module 3 – Bases du français",
-        "japanese_beginners": "Japonais pour débutants",
-        "german_bundle": "Pack de langue allemande"
+            "spanish_advanced": "Conversation espagnole avancée",
+            "french_module3": "Module 3 – Bases du français",
+            "japanese_beginners": "Japonais pour débutants",
+            "german_bundle": "Pack de langue allemande"
         },
         "ago": {
-        "5min": "il y a 5 minutes",
-        "2h": "il y a 2 heures",
-        "4h": "il y a 4 heures",
-        "6h": "il y a 6 heures"
+            "5min": "il y a 5 minutes",
+            "2h": "il y a 2 heures",
+            "4h": "il y a 4 heures",
+            "6h": "il y a 6 heures"
         }
     },
     "top_perform": "Cours les plus performants",
     "student_enrolled": "étudiants inscrits",
     "view_course": "Voir tous les cours",
     "Courses": {
-    "spanish_beginners": "Espagnol pour débutants",
-    "french_masterclass": "Masterclass de français",
-    "japanese_essentials": "Essentiels du japonais"
+        "spanish_beginners": "Espagnol pour débutants",
+        "french_masterclass": "Masterclass de français",
+        "japanese_essentials": "Essentiels du japonais"
     },
     "today_pm": "Aujourd'hui, 14h00",
     "tomorrow_pm": "Demain, 10h00",
-    "jul": "15 juil., 13h00"
-    
+    "jul": "15 juil., 13h00",
+    "courseApproval": {
+        "warningTitle": "Veuillez examiner attentivement le contenu du cours avant de l’approuver.",
+        "warningBody": "Assurez-vous qu’il respecte les directives et les normes de qualité de notre plateforme.",
+        "commentLabel": "Commentaire (obligatoire)",
+        "commentPlaceholder": "Ajoutez un commentaire concernant l’approbation de ce cours (par exemple : améliorations, problèmes ou retours)..."
+    }
 }

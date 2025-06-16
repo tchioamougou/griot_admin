@@ -275,5 +275,11 @@
   },
   "today_pm" : "Today, 2:00 PM",
   "tomorrow_pm" : "Tomorrow, 10:00 AM",
-  "jul" : "Jul 15, 1:00 PM"
+  "jul" : "Jul 15, 1:00 PM",
+  "courseApproval": {
+    "warningTitle": "Please review the course content carefully before approval.",
+    "warningBody": "Ensure it complies with our platform's guidelines and quality standards.",
+    "commentLabel": "Comment (Required)",
+    "commentPlaceholder": "Add a comment about this course approval (e.g. improvements, issues, or feedback)..."
+  }
 }
